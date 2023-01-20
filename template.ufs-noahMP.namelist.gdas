@@ -1,8 +1,8 @@
 &run_setup
 
-  static_file      = "/scratch1/NCEPDEV/stmp2/Michael.Barlage/forcing/C96/static/ufs-land_C96_static_fields.nc"
-  init_file        = "/scratch1/NCEPDEV/stmp2/Michael.Barlage/forcing/C96/init/ufs-land_C96_init_fields_1hr.nc"
-  forcing_dir      = "/scratch1/NCEPDEV/stmp2/Michael.Barlage/forcing/C96/gdas/forcing"
+  static_file      = "/data/land-release/forcing/C96/static/ufs-land_C96_static_fields.nc"
+  init_file        = "/data/land-release/forcing/C96/init/ufs-land_C96_init_fields_1hr.nc"
+  forcing_dir      = "/data/land-release/forcing/C96/gdas/forcing"
   
   separate_output = .false.
   output_dir       = "./noahmp_output/"

@@ -1,6 +1,6 @@
 #!/bin/bash -le 
 #SBATCH --job-name=offline_noahmp
-#SBATCH --account=gsienkf
+#SBATCH --account=da-cpu
 #SBATCH --qos=debug
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=6
@@ -17,7 +17,11 @@
 ############################
 
 # load config file   
-
+#set -x
+#export OOPS_TRACE=1
+#export OOPS_DEBUG=1
+export PATH=$PATH:./
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data/land-release/land-offline_workflow/build/lib
 if [[ $# -gt 0 ]]; then 
     config_file=$1
 else
@@ -30,7 +34,7 @@ source $config_file
 
 # load modules 
 
-source cycle_mods_bash
+#source cycle_mods_bash
 
 export CYCLEDIR=$(pwd) 
 
