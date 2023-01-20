@@ -18,11 +18,10 @@
 
 # load config file   
 set -x
-#export OOPS_TRACE=1
-#export OOPS_DEBUG=1
 export LANDDAROOT=/scratch1/NCEPDEV/stmp2/Mark.Potts/land-test
+export img=/scratch1/NCEPDEV/nems/role.epic/containers/ubuntu20.04-intel-spack-landda.img
 export PATH=$PATH:./
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${LANDDAROOT}/land-release/land-offline_workflow/build/lib
+export SINGULARITYENV_APPEND_LD_LIBRARY_PATH=${LANDDAROOT}/land-release/land-offline_workflow/build/lib
 if [[ $# -gt 0 ]]; then 
     config_file=$1
 else
@@ -39,15 +38,6 @@ source $config_file
 
 export CYCLEDIR=$(pwd) 
 
-# set executables
-
-vec2tileexec=${CYCLEDIR}/vector2tile/vector2tile_converter.exe
-LSMexec=${CYCLEDIR}/ufs-land-driver/run/ufsLand.exe 
-DADIR=${CYCLEDIR}/DA_update/
-DAscript=${DADIR}/do_landDA.sh
-
-analdate=${CYCLEDIR}/analdates.sh
-incdate=${CYCLEDIR}/incdate.sh
 
 KEEPWORKDIR="YES"
 
@@ -57,6 +47,34 @@ if [[ -e ${WORKDIR} ]]; then
 fi
 
 mkdir ${WORKDIR}
+
+# set executables
+
+rm -f ${CYCLEDIR}/*.exe
+rm -f ${CYCLEDIR}/calcfIMS*
+rm -f ${CYCLEDIR}/*.x
+rm -f ${CYCLEDIR}/python
+ln -s ${EPICCONTAINERS}/run_container_executable.sh ${CYCLEDIR}/vector2tile_converter.exe
+ln -s ${EPICCONTAINERS}/run_container_executable.sh ${CYCLEDIR}/ufsLandDriver.exe
+ln -s ${EPICCONTAINERS}/run_container_executable.sh ${CYCLEDIR}/apply_incr.exe
+ln -s ${EPICCONTAINERS}/run_container_executable.sh ${CYCLEDIR}/fv3jedi_letkf.x
+ln -s ${EPICCONTAINERS}/run_container_executable.sh ${CYCLEDIR}/calcfIMS
+ln -s ${EPICCONTAINERS}/run_container_executable.sh ${CYCLEDIR}/python
+
+#vec2tileexec=${CYCLEDIR}/vector2tile/vector2tile_converter.exe
+#LSMexec=${CYCLEDIR}/ufs-land-driver/run/ufsLand.exe 
+vec2tileexec=${CYCLEDIR}/vector2tile_converter.exe
+export JEDI_EXEC=${CYCLEDIR}/fv3jedi_letkf.x
+export APPLY_INC_EXEC=${CYCLEDIR}/apply_incr.exe
+export calcfIMS_EXEC=${CYCLEDIR}/calcfIMS
+export PYTHON=${CYCLEDIR}/python
+
+LSMexec=${CYCLEDIR}/ufsLandDriver.exe 
+DADIR=${CYCLEDIR}/DA_update/
+DAscript=${DADIR}/do_singularity_landDA.sh
+
+analdate=${CYCLEDIR}/analdates.sh
+incdate=${CYCLEDIR}/incdate.sh
 
 ############################
 # create output directories if they do not already exist.
