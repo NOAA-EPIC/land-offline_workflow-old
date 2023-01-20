@@ -4,9 +4,9 @@
 export exp_name=DA_IMS_test_mp2
 
 # temporary directory where experiment is run from
-export WORKDIR=/data/land-release/workdir/
+export WORKDIR=${LANDDAROOT}/land-release/workdir/
 # directory where output is saved
-export OUTDIR=/data/land-release/cycle_land/${exp_name}/
+export OUTDIR=${LANDDAROOT}/land-release/cycle_land/${exp_name}/
 
 ############################
 
@@ -22,8 +22,8 @@ atmos_forc=gdas
 
 #FV3 resolution
 export RES=96
-#export TPATH="/scratch2/BMC/gsienkf/Clara.Draper/data_RnR/orog_files_Mike/" 
-export TPATH="/data/land-release/orog_files/" 
+#export TPATH="/scratch2/BMC/gsienkf/Clara.Draper${LANDDAROOT}_RnR/orog_files_Mike/" 
+export TPATH="${LANDDAROOT}/land-release/orog_files/" 
 export TSTUB="oro_C96.mx100" # file stub for orography files in $TPATH
                              # oro_C${RES} for atm only, oro_C${RES}.mx100 for atm/ocean.
 
@@ -34,7 +34,7 @@ dates_per_job=1
 # directory with initial conditions
 # can find some here:/scratch2/BMC/gsienkf/Clara.Draper/DA_test_cases/land-offline_workflow/offline_ICS/single
 #CSDIR=/scratch2/BMC/gsienkf/Clara.Draper/DA_test_cases/land-offline_workflow/offline_ICS/single
-ICSDIR=/data/land-release/single
+ICSDIR=${LANDDAROOT}/land-release/single
 
 # namelist for do_landDA.sh
 # set to empty to not call do_landDA.sh
