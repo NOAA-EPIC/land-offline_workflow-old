@@ -17,11 +17,12 @@
 ############################
 
 # load config file   
-#set -x
+set -x
 #export OOPS_TRACE=1
 #export OOPS_DEBUG=1
+export LANDDAROOT=/lustre
 export PATH=$PATH:./
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data/land-release/land-offline_workflow/build/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${LANDDAROOT}/land-release/land-offline_workflow/build/lib
 if [[ $# -gt 0 ]]; then 
     config_file=$1
 else
@@ -224,6 +225,7 @@ while [ $date_count -lt $dates_per_job ]; do
         # update vec2tile and tile2vec namelists
         cp  ${CYCLEDIR}/template.vector2tile vector2tile.namelist
 
+        sed -i "s|LANDDAROOT|${LANDDAROOT}|g" vector2tile.namelist
         sed -i -e "s/XXYYYY/${YYYY}/g" vector2tile.namelist
         sed -i -e "s/XXMM/${MM}/g" vector2tile.namelist
         sed -i -e "s/XXDD/${DD}/g" vector2tile.namelist
@@ -235,6 +237,7 @@ while [ $date_count -lt $dates_per_job ]; do
 
         cp  ${CYCLEDIR}/template.tile2vector tile2vector.namelist
 
+        sed -i "s|LANDDAROOT|${LANDDAROOT}|g" tile2vector.namelist
         sed -i -e "s/XXYYYY/${YYYY}/g" tile2vector.namelist
         sed -i -e "s/XXMM/${MM}/g" tile2vector.namelist
         sed -i -e "s/XXDD/${DD}/g" tile2vector.namelist
@@ -312,6 +315,7 @@ while [ $date_count -lt $dates_per_job ]; do
             cp  ${CYCLEDIR}/template.ufs-noahMP.namelist.${atmos_forc}  ufs-land.namelist
         fi
 
+        sed -i "s|LANDDAROOT|${LANDDAROOT}|g" ufs-land.namelist
         sed -i -e "s/XXYYYY/${YYYY}/g" ufs-land.namelist
         sed -i -e "s/XXMM/${MM}/g" ufs-land.namelist
         sed -i -e "s/XXDD/${DD}/g" ufs-land.namelist
