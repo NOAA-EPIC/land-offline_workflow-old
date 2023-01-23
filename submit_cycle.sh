@@ -17,12 +17,17 @@
 ############################
 
 # load config file   
+#NOTES--If running with a container, need to get executable scripts set up for all in land-offline_workflow/build/bin, python and fv3-bundle/build/bin/fv3jedi_letkf.x
 set -x
-#export OOPS_TRACE=1
-#export OOPS_DEBUG=1
-export LANDDAROOT=/lustre
+ulimit -s unlimited
+
+dirup=`dirname $PWD`
+export LANDDAROOT=${LANDDAROOT:-`dirname $dirup`}
+export BUILDDIR=${BUILDDIR:-${LANDDAROOT}/land-release/land-offline_workflow/build}
+locpython=`which python3 | head -n 1`
+export PYTHON=${PYTHON:-${locpython}}
 export PATH=$PATH:./
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${LANDDAROOT}/land-release/land-offline_workflow/build/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${BUILDDIR}/lib
 if [[ $# -gt 0 ]]; then 
     config_file=$1
 else
@@ -41,8 +46,8 @@ export CYCLEDIR=$(pwd)
 
 # set executables
 
-vec2tileexec=${CYCLEDIR}/vector2tile/vector2tile_converter.exe
-LSMexec=${CYCLEDIR}/ufs-land-driver/run/ufsLand.exe 
+vec2tileexec=${BUILDDIR}/bin/vector2tile_converter.exe
+LSMexec=${BUILDDIR}/bin/ufsLandDriver.exe 
 DADIR=${CYCLEDIR}/DA_update/
 DAscript=${DADIR}/do_landDA.sh
 
